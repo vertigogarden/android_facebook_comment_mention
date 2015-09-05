@@ -124,14 +124,15 @@ public class OpenGraphFragment extends Fragment implements CustomFacebookMention
         shareButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Log.d("MOCKSTATUS", mentionTextview.getStatusString());
 //                Log.d(TAG, "widgetY check:" + getRelativeTop(mentionTextview));
-                try {
-                    postToServer();
-                } catch (UnsupportedEncodingException e) {
-                    e.printStackTrace();
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
+//                try {
+//                    postToServer();
+//                } catch (UnsupportedEncodingException e) {
+//                    e.printStackTrace();
+//                } catch (JSONException e) {
+//                    e.printStackTrace();
+//                }
             }
         });
 

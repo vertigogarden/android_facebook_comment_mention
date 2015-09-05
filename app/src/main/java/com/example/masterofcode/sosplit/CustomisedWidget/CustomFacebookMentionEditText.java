@@ -43,7 +43,7 @@ import java.util.Set;
  * Created by e044983 on 28/3/15.
  */
 public class CustomFacebookMentionEditText extends EditText {
-    private static final String TAG = "CustomFacebookMentionTextView";
+    private static final String TAG = "CustomFacebook";
     private boolean mentionInProgress;
     int rbottom;
     private Context context;
@@ -64,7 +64,7 @@ public class CustomFacebookMentionEditText extends EditText {
 
     private Set<Mention> mentionsSet = new HashSet<>();
 
-    private ArrayList<Mention> mentionList = new ArrayList<Mention>();
+    private static ArrayList<Mention> mentionList = new ArrayList<Mention>();
     private int mentionStart;
     private int mentionEnd;
 
@@ -193,6 +193,8 @@ public class CustomFacebookMentionEditText extends EditText {
 //                        , Toast.LENGTH_SHORT);
 //                // for center horizontal
 //                mytoast.show();
+            } else if( count == before){
+                // ignore
             } else {
                 textRemoved(start, before - count);
                 if (mentionInProgress) {

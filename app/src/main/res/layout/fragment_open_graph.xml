@@ -6,14 +6,39 @@
     android:id="@+id/relative_layout">
 
     <LinearLayout
-        android:id="@+id/header"
+        android:id="@+id/headerfirst"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:gravity="center"
         android:paddingTop="15dp"
         android:paddingBottom="10dp"
-        android:visibility="gone">
+        android:visibility="visible">
+
+        <ImageView
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:src="@drawable/ic_launcher"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#ffffff"
+            android:text="SoSplit"
+            android:paddingLeft="15dp"
+            android:textSize="40dp"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/header"
+        android:layout_below="@id/headerfirst"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:paddingTop="15dp"
+        android:paddingBottom="10dp"
+        android:visibility="visible">
 
         <ImageView
             android:layout_width="60dp"
@@ -73,6 +98,4 @@
         android:text="SHARE"
         android:layout_alignParentBottom="true"
         android:textColor="#ffffff"/>
-
-
 </RelativeLayout>
