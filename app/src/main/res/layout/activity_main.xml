@@ -15,7 +15,7 @@
         android:id="@+id/userSettingsFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
-    <fragment android:name="com.example.masterofcode.sosplit.OpenGraphFragment"
+    <fragment android:name="com.example.masterofcode.sosplit.StatusMentionFragment"
         android:id="@+id/openGraphFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />

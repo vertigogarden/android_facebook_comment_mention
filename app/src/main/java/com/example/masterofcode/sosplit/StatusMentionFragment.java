@@ -1,37 +1,21 @@
 package com.example.masterofcode.sosplit;
 
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
-import android.animation.ObjectAnimator;
-import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Resources;
-import android.net.ParseException;
-import android.net.Uri;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.util.Log;
-import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewTreeObserver;
-import android.view.animation.AccelerateDecelerateInterpolator;
-import android.view.animation.Animation;
-import android.view.animation.BounceInterpolator;
-import android.view.animation.LinearInterpolator;
-import android.view.animation.OvershootInterpolator;
-import android.view.animation.TranslateAnimation;
 import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.androidquery.AQuery;
-import com.example.masterofcode.sosplit.Adapter.OweMoneyListAdapter;
+import com.example.masterofcode.sosplit.Adapter.MentionsListAdapter;
 import com.example.masterofcode.sosplit.CustomisedWidget.CustomFacebookMentionEditText;
 import com.facebook.HttpMethod;
 import com.facebook.Request;
@@ -41,24 +25,15 @@ import com.facebook.SessionState;
 import com.facebook.UiLifecycleHelper;
 import com.facebook.model.GraphUser;
 
-import org.apache.http.HttpResponse;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.entity.StringEntity;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.util.EntityUtils;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
-public class OpenGraphFragment extends Fragment implements CustomFacebookMentionEditText.Listener {
+public class StatusMentionFragment extends Fragment implements CustomFacebookMentionEditText.Listener {
     private static final String TAG = "OpenGraphFragment";
 
     private static final String PENDING_PUBLISH_KEY = "pendingPublishReauthorization";
@@ -87,12 +62,12 @@ public class OpenGraphFragment extends Fragment implements CustomFacebookMention
 
     private AQuery aq;
 
-    public static OpenGraphFragment newInstance(String param1, String param2) {
-        OpenGraphFragment fragment = new OpenGraphFragment();
+    public static StatusMentionFragment newInstance(String param1, String param2) {
+        StatusMentionFragment fragment = new StatusMentionFragment();
         return fragment;
     }
 
-    public OpenGraphFragment() {
+    public StatusMentionFragment() {
         // Required empty public constructor
     }
 
@@ -111,13 +86,8 @@ public class OpenGraphFragment extends Fragment implements CustomFacebookMention
         View view = inflater.inflate(R.layout.fragment_open_graph, container, false);
         mentionTextview = (CustomFacebookMentionEditText) view.findViewById(R.id.mentionTextview);
         mentionTextview.setListener(this);
-        LinearLayout ll = (LinearLayout) view.findViewById(R.id.header);
+//        LinearLayout ll = (LinearLayout) view.findViewById(R.id.header);
         Resources r = getResources();
-        float px = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 90, r.getDisplayMetrics());
-//        mentionTextview.setWidgetY(getRelativeTop(mentionTextview));
-//        int[] location = new int[2];
-//        mentionTextview.getLocationInWindow(location);
-//        mentionTextview.setWidgetY(location[1]);
         mentionTextview.setAQuery(aq);
 
         shareButton = (Button) view.findViewById(R.id.share_open_graph);
@@ -125,14 +95,7 @@ public class OpenGraphFragment extends Fragment implements CustomFacebookMention
             @Override
             public void onClick(View v) {
                 Log.d("MOCKSTATUS", mentionTextview.getStatusString());
-//                Log.d(TAG, "widgetY check:" + getRelativeTop(mentionTextview));
-//                try {
-//                    postToServer();
-//                } catch (UnsupportedEncodingException e) {
-//                    e.printStackTrace();
-//                } catch (JSONException e) {
-//                    e.printStackTrace();
-//                }
+                showStatusDialog(v);
             }
         });
 
@@ -142,18 +105,6 @@ public class OpenGraphFragment extends Fragment implements CustomFacebookMention
             pendingPublishReauthorization =
                     savedInstanceState.getBoolean(PENDING_PUBLISH_KEY, false);
         }
-
-        ImageView balloon = (ImageView) view.findViewById(R.id.imageview_balloon);
-        TranslateAnimation mAnimation = new TranslateAnimation(
-                TranslateAnimation.ABSOLUTE, 0f,
-                TranslateAnimation.ABSOLUTE, 0f,
-                TranslateAnimation.RELATIVE_TO_PARENT, 0.2f,
-                TranslateAnimation.RELATIVE_TO_PARENT, 0f);
-        mAnimation.setDuration(8000);
-        mAnimation.setRepeatCount(-1);
-        mAnimation.setRepeatMode(Animation.REVERSE);
-        mAnimation.setInterpolator(new AccelerateDecelerateInterpolator());
-        balloon.setAnimation(mAnimation);
 
         return view;
     }
@@ -172,9 +123,6 @@ public class OpenGraphFragment extends Fragment implements CustomFacebookMention
         }
 
         uiHelper.onResume();
-//
-//        mentionTextview.setWidgetY(mentionTextview.getY());
-//        Log.d(TAG, "widgetY:" + mentionTextview.getY());
     }
 
     private int getRelativeTop(View myView) {
@@ -307,86 +255,12 @@ public class OpenGraphFragment extends Fragment implements CustomFacebookMention
     @Override
     public void customFacebookMentionTextViewMentionChanged(List<CustomFacebookMentionEditText.Mention> mentions) {
 
-        mentionNameListview.setAdapter(new OweMoneyListAdapter(getActivity(), mentions, aq));
+        mentionNameListview.setAdapter(new MentionsListAdapter(getActivity(), mentions, aq));
     }
 
     @Override
     public void customFacebookMentionTextViewMentionAdded(CustomFacebookMentionEditText.Mention mention) {
 //        addRow(mention);
-    }
-
-    public void postToServer() throws UnsupportedEncodingException, JSONException {
-
-        final HttpClient client = new DefaultHttpClient();
-        final HttpPost post = new HttpPost("http://sosplit.herokuapp.com/transfers");
-        post.setHeader("Content-Type", "application/json");
-//        List<NameValuePair> pairs = new ArrayList<NameValuePair>();
-//        pairs.add(new BasicNameValuePair("key1", "value1"));
-//        pairs.add(new BasicNameValuePair("key2", "value2"));
-//        post.setEntity(new UrlEncodedFormEntity(pairs));
-
-        JSONObject jsonobj = new JSONObject();
-
-        Session session = Session.getActiveSession();
-        List<String> permissions = session.getPermissions();
-        if (!isSubsetOf(PERMISSIONS, permissions)) {
-            pendingPublishReauthorization = true;
-            Session.NewPermissionsRequest newPermissionsRequest = new Session
-                    .NewPermissionsRequest(this, PERMISSIONS);
-            session.requestNewPublishPermissions(newPermissionsRequest);
-        }
-        JSONObject postObj = new JSONObject().put("accessToken", session.getAccessToken());
-
-        JSONObject receiver = new JSONObject();
-        receiver.put("id", graphUser.getId());
-        receiver.put("photoUrl", "http://commons.wikimedia.org/wiki/Example_images#/media/File:Example.svg");
-        receiver.put("display", graphUser.getFirstName());
-
-        jsonobj.put("post", postObj);
-        jsonobj.put("receiver", receiver);
-        jsonobj.put("requests", getJSONMentions(((OweMoneyListAdapter)mentionNameListview.getAdapter()).getMentions()));
-//        jsonobj.put("requests", getJSONMentions(((OweMoneyListAdapter)mListView.getAdapter()).getMentions()));
-        jsonobj.put("message", mentionTextview.getStatusString());
-        StringEntity se = new StringEntity(jsonobj.toString());
-        post.setEntity(se);
-
-
-
-        final Handler handler = new Handler();
-
-        Thread thread = new Thread(
-                new Runnable() {
-                    public void run() {
-                        try {
-                            final HttpResponse respones = client.execute(post);
-                            Log.d(TAG, "HTTP RESPONSE:" +respones.toString());
-                            String responseText = null;
-                            try {
-                                responseText = EntityUtils.toString(respones.getEntity());
-
-                                getActivity().runOnUiThread(new Runnable() {
-                                    public void run() {
-                                        if (respones.getStatusLine().getStatusCode() == 200) {
-                                            Toast.makeText(getActivity(), "Status Posted!", Toast.LENGTH_SHORT).show();
-                                        } else {
-                                            Toast.makeText(getActivity(), "Please share again.", Toast.LENGTH_SHORT).show();
-                                        }
-                                    }
-                                });
-
-//                                Log.d(TAG, "HTTP RESPONSE TEXT:" +responseText);
-//                                Log.d(TAG, "HTTP RESPONSE TEXT:" +respones.getStatusLine().getStatusCode());
-                                }catch (ParseException e) {
-                                e.printStackTrace();
-                                Log.i("Parse Exception", e + "");
-
-                            }
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                });
-        thread.start();
     }
 
     private JSONArray getJSONMentions(List<CustomFacebookMentionEditText.Mention> mentions) {
@@ -406,4 +280,22 @@ public class OpenGraphFragment extends Fragment implements CustomFacebookMention
         return mentionArray;
     }
 
+    private void showStatusDialog(View view) {
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());
+
+        alertDialogBuilder.setTitle("Status");
+        alertDialogBuilder.setMessage(mentionTextview.getMOCKStatusString() + "\n\n" + mentionTextview.getStatusString());
+
+        // set neutral button: Exit the app message
+        alertDialogBuilder.setNeutralButton("Exit the app", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                // exit the app and go to the HOME
+                dialog.dismiss();
+            }
+        });
+
+        AlertDialog alertDialog = alertDialogBuilder.create();
+        // show alert
+        alertDialog.show();
+    }
 }

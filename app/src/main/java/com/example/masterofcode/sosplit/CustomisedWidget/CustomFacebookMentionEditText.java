@@ -1,7 +1,5 @@
 package com.example.masterofcode.sosplit.CustomisedWidget;
 
-import android.animation.Animator;
-import android.animation.ValueAnimator;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
@@ -47,7 +45,7 @@ public class CustomFacebookMentionEditText extends EditText {
     private boolean mentionInProgress;
     int rbottom;
     private Context context;
-    private static float y;
+    private static float listY;
     private float ascend;
     private float _baseline;
     private ListView facebookFriendlist;
@@ -140,7 +138,7 @@ public class CustomFacebookMentionEditText extends EditText {
 //            float x = layout.getPrimaryHorizontal(pos);
 //            ascend = ascent;
 //            _baseline = baseline;
-//            y = baseline + descent;
+//            listY = baseline + descent;
 //            displayTosat();
 //            displayFacebookFriendlist2();
 
@@ -158,7 +156,7 @@ public class CustomFacebookMentionEditText extends EditText {
                 float x = layout.getPrimaryHorizontal(pos);
                 ascend = ascent;
                 _baseline = baseline;
-                y = getWidgetY();
+                listY = getWidgetY() + _baseline + descent;
 
 
                 Character charChanged = s.charAt(start + count - 1);
@@ -255,7 +253,7 @@ public class CustomFacebookMentionEditText extends EditText {
 //        int height = (int)(_baseline + getY());
 //        Toast mytoast= Toast.makeText(context,
 //                "main: "+ height
-//                +"\nfocus y: "+ y
+//                +"\nfocus listY: "+ listY
 //                +"\nrbottom: " +rbottom
 //                +"\nwindow height: " + mRootView.getHeight()
 //                +"\ngetY: "+getY()
@@ -281,7 +279,7 @@ public class CustomFacebookMentionEditText extends EditText {
 //
 //        }
 //        facebookFriendlistLayout.setX(0);
-//        facebookFriendlistLayout.setY(y + getY());
+//        facebookFriendlistLayout.setY(listY + getY());
 //        facebookFriendlistLayout.setBackgroundColor(Color.YELLOW);
 //        facebookFriendlistLayout.setVisibility(VISIBLE);
 ////        if(facebookFriendlist==null){
@@ -307,7 +305,7 @@ public class CustomFacebookMentionEditText extends EditText {
         }
         final FacebookFriendlistAdapter friendAdapter = new FacebookFriendlistAdapter(context, getFilteredList());
         facebookFriendlist.setX(0);
-        facebookFriendlist.setY(y);
+        facebookFriendlist.setY(listY);
         facebookFriendlist.setVisibility(VISIBLE);
         facebookFriendlist.setAdapter(friendAdapter);
         facebookFriendlist.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -494,9 +492,21 @@ public class CustomFacebookMentionEditText extends EditText {
     }
 
     public float getWidgetY() {
-        int[] location = new int[2];
-        getLocationInWindow(location);
-        return location[1];
+        View rootLayout = this.getRootView().findViewById(android.R.id.content);
+
+        int[] viewLocation = new int[2];
+        getLocationInWindow(viewLocation);
+
+        int[] rootLocation = new int[2];
+        rootLayout.getLocationInWindow(rootLocation);
+
+        int relativeLeft = viewLocation[0] - rootLocation[0];
+        return viewLocation[1] - rootLocation[1];
+
+
+//        int[] location = new int[2];
+//        getLocationOnScreen(location);
+//        return location[1];
     }
 
 
