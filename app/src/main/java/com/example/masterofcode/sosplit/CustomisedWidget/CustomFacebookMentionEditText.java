@@ -528,9 +528,6 @@ public class CustomFacebookMentionEditText extends EditText {
 
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
-//            LayoutInflater inflater = (LayoutInflater) context
-//                    .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-//            View FriendlistRow = inflater.inflate(R.layout.friendlist_row, parent, false);
             String name = "-";
             String imageURL = "";
             try{
@@ -541,9 +538,6 @@ public class CustomFacebookMentionEditText extends EditText {
             }
 
             LinearLayout ll = new LinearLayout(context);
-//            ll.setOrientation(LinearLayout.HORIZONTAL);
-//            ll.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, 50));
-
             ll.setBackgroundColor(Color.parseColor("#ffffff"));
 
             ImageView imageView = new ImageView(context);
@@ -568,14 +562,7 @@ public class CustomFacebookMentionEditText extends EditText {
             tv1.setPadding(15,0,0,0);
             ll.addView(tv1);
 
-
-
-//            TextView tv2 = new TextView(context);
-//            tv2.setText("WORLD");
-//            ll.addView(tv2);
-
             return ll;
-//            return FriendlistRow;
         }
 
         public JSONArray getList(){return friendlistJsonArray;}

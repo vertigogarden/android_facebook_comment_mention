@@ -86,7 +86,6 @@ public class StatusMentionFragment extends Fragment implements CustomFacebookMen
         View view = inflater.inflate(R.layout.fragment_open_graph, container, false);
         mentionTextview = (CustomFacebookMentionEditText) view.findViewById(R.id.mentionTextview);
         mentionTextview.setListener(this);
-//        LinearLayout ll = (LinearLayout) view.findViewById(R.id.header);
         Resources r = getResources();
         mentionTextview.setAQuery(aq);
 
@@ -135,10 +134,6 @@ public class StatusMentionFragment extends Fragment implements CustomFacebookMen
     private void getAllFriends(){
         Session session = Session.getActiveSession();
         if (session != null) {
-//            Toast.makeText(getActivity()
-//                            .getApplicationContext(),
-//                    "session not null",
-//                    Toast.LENGTH_LONG).show();
 
             // Check for publish permissions
             List<String> permissions = session.getPermissions();
@@ -254,30 +249,11 @@ public class StatusMentionFragment extends Fragment implements CustomFacebookMen
 
     @Override
     public void customFacebookMentionTextViewMentionChanged(List<CustomFacebookMentionEditText.Mention> mentions) {
-
         mentionNameListview.setAdapter(new MentionsListAdapter(getActivity(), mentions, aq));
     }
 
     @Override
     public void customFacebookMentionTextViewMentionAdded(CustomFacebookMentionEditText.Mention mention) {
-//        addRow(mention);
-    }
-
-    private JSONArray getJSONMentions(List<CustomFacebookMentionEditText.Mention> mentions) {
-        JSONArray mentionArray = new JSONArray();
-        for(CustomFacebookMentionEditText.Mention mention: mentions){
-            JSONObject jsonObject = new JSONObject();
-            try {
-                jsonObject.put("id", mention.getId());
-                jsonObject.put("photoUrl", mention.getPhotoURL());
-                jsonObject.put("display", mention.getName());
-                jsonObject.put("amount", mention.getAmount());
-                mentionArray.put(jsonObject);
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        }
-        return mentionArray;
     }
 
     private void showStatusDialog(View view) {
@@ -287,7 +263,7 @@ public class StatusMentionFragment extends Fragment implements CustomFacebookMen
         alertDialogBuilder.setMessage(mentionTextview.getMOCKStatusString() + "\n\n" + mentionTextview.getStatusString());
 
         // set neutral button: Exit the app message
-        alertDialogBuilder.setNeutralButton("Exit the app", new DialogInterface.OnClickListener() {
+        alertDialogBuilder.setNeutralButton("close", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
                 // exit the app and go to the HOME
                 dialog.dismiss();

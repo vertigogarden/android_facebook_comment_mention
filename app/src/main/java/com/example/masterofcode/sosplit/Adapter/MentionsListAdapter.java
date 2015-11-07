@@ -1,14 +1,10 @@
 package com.example.masterofcode.sosplit.Adapter;
 
 import android.content.Context;
-import android.text.Editable;
-import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -17,8 +13,6 @@ import com.androidquery.callback.ImageOptions;
 import com.example.masterofcode.sosplit.CustomisedWidget.CustomFacebookMentionEditText;
 import com.example.masterofcode.sosplit.R;
 
-import java.text.NumberFormat;
-import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -66,7 +60,7 @@ public class MentionsListAdapter extends BaseAdapter {
 //        if(convertView == null) {
             LayoutInflater inflater = (LayoutInflater) context
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        convertView = inflater.inflate(R.layout.owe_money_list_item, parent, false);
+        convertView = inflater.inflate(R.layout.mentions_list_item, parent, false);
 //        }
         TextView name = (TextView) convertView.findViewById(R.id.textview_name);
         final CustomFacebookMentionEditText.Mention mention = mentions.get(position);
