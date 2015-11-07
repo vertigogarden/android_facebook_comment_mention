@@ -1,4 +1,4 @@
-package com.example.masterofcode.facebookmentionedittext.CustomisedWidget;
+package com.example.demo.facebookmentionedittext.CustomisedWidget;
 
 import android.app.Activity;
 import android.content.Context;
@@ -23,7 +23,7 @@ import android.widget.Toast;
 
 import com.androidquery.AQuery;
 import com.androidquery.callback.ImageOptions;
-import com.example.masterofcode.facebookmentionedittext.R;
+import com.example.demo.facebookmentionedittext.R;
 
 import org.json.JSONArray;
 import org.json.JSONException;

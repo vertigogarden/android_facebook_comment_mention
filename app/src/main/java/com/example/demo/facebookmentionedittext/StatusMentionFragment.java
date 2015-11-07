@@ -1,4 +1,4 @@
-package com.example.masterofcode.facebookmentionedittext;
+package com.example.demo.facebookmentionedittext;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -15,8 +15,8 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.androidquery.AQuery;
-import com.example.masterofcode.facebookmentionedittext.Adapter.MentionsListAdapter;
-import com.example.masterofcode.facebookmentionedittext.CustomisedWidget.CustomFacebookMentionEditText;
+import com.example.demo.facebookmentionedittext.Adapter.MentionsListAdapter;
+import com.example.demo.facebookmentionedittext.CustomisedWidget.CustomFacebookMentionEditText;
 import com.facebook.HttpMethod;
 import com.facebook.Request;
 import com.facebook.Response;

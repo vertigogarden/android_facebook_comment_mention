@@ -1,4 +1,4 @@
-package com.example.masterofcode.facebookmentionedittext;
+package com.example.demo.facebookmentionedittext;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;

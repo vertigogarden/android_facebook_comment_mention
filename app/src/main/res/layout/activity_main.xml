@@ -7,7 +7,7 @@
     <!--android:paddingTop="@dimen/activity_vertical_margin"-->
     <!--android:paddingBottom="@dimen/activity_vertical_margin" -->
 
-    <fragment android:name="com.example.masterofcode.facebookmentionedittext.SplashFragment"
+    <fragment android:name="com.example.demo.facebookmentionedittext.SplashFragment"
         android:id="@+id/splashFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
@@ -15,7 +15,7 @@
         android:id="@+id/userSettingsFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
-    <fragment android:name="com.example.masterofcode.facebookmentionedittext.StatusMentionFragment"
+    <fragment android:name="com.example.demo.facebookmentionedittext.StatusMentionFragment"
         android:id="@+id/openGraphFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />

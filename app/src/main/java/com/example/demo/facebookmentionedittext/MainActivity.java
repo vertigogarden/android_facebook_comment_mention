@@ -1,4 +1,4 @@
-package com.example.masterofcode.facebookmentionedittext;
+package com.example.demo.facebookmentionedittext;
 
 import android.content.Intent;
 import android.content.pm.PackageInfo;
@@ -49,7 +49,7 @@ public class MainActivity extends FragmentActivity {
         super.onCreate(savedInstanceState);
         try {
             PackageInfo info = getPackageManager().getPackageInfo(
-                    "com.example.masterofcode.sosplit",
+                    "com.example.demo.facebookmentionedittext",
                     PackageManager.GET_SIGNATURES);
             for (Signature signature : info.signatures) {
                 MessageDigest md = MessageDigest.getInstance("SHA");

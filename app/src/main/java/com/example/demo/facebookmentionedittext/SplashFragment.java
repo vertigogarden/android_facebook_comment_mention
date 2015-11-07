@@ -1,4 +1,4 @@
-package com.example.masterofcode.facebookmentionedittext;
+package com.example.demo.facebookmentionedittext;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;

@@ -1,4 +1,4 @@
-package com.example.masterofcode.facebookmentionedittext.Adapter;
+package com.example.demo.facebookmentionedittext.Adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -10,8 +10,9 @@ import android.widget.TextView;
 
 import com.androidquery.AQuery;
 import com.androidquery.callback.ImageOptions;
-import com.example.masterofcode.facebookmentionedittext.CustomisedWidget.CustomFacebookMentionEditText;
-import com.example.masterofcode.facebookmentionedittext.R;
+import com.example.demo.facebookmentionedittext.CustomisedWidget.CustomFacebookMentionEditText;
+import com.example.demo.facebookmentionedittext.R;
+
 
 import java.util.List;
 
