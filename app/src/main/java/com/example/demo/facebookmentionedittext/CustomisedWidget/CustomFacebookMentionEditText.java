@@ -1,4 +1,4 @@
-package com.example.masterofcode.sosplit.CustomisedWidget;
+package com.example.masterofcode.facebookmentionedittext.CustomisedWidget;
 
 import android.app.Activity;
 import android.content.Context;
@@ -23,7 +23,7 @@ import android.widget.Toast;
 
 import com.androidquery.AQuery;
 import com.androidquery.callback.ImageOptions;
-import com.example.masterofcode.sosplit.R;
+import com.example.masterofcode.facebookmentionedittext.R;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -32,10 +32,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 /**
  * Created by e044983 on 28/3/15.

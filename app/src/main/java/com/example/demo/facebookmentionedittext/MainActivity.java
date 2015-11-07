@@ -1,4 +1,4 @@
-package com.example.masterofcode.sosplit;
+package com.example.masterofcode.facebookmentionedittext;
 
 import android.content.Intent;
 import android.content.pm.PackageInfo;

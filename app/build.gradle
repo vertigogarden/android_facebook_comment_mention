@@ -5,7 +5,7 @@ android {
     buildToolsVersion "21.1.1"
 
     defaultConfig {
-        applicationId "com.example.masterofcode.sosplit"
+        applicationId "com.example.demo.facebookmentioneditext"
         minSdkVersion 15
         targetSdkVersion 21
         versionCode 1

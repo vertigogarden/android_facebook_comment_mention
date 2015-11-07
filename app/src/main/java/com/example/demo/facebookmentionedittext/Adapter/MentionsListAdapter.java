@@ -1,4 +1,4 @@
-package com.example.masterofcode.sosplit.Adapter;
+package com.example.masterofcode.facebookmentionedittext.Adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -10,8 +10,8 @@ import android.widget.TextView;
 
 import com.androidquery.AQuery;
 import com.androidquery.callback.ImageOptions;
-import com.example.masterofcode.sosplit.CustomisedWidget.CustomFacebookMentionEditText;
-import com.example.masterofcode.sosplit.R;
+import com.example.masterofcode.facebookmentionedittext.CustomisedWidget.CustomFacebookMentionEditText;
+import com.example.masterofcode.facebookmentionedittext.R;
 
 import java.util.List;
 

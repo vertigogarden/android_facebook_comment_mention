@@ -1,4 +1,4 @@
-package com.example.masterofcode.sosplit;
+package com.example.masterofcode.facebookmentionedittext;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -15,8 +15,8 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.androidquery.AQuery;
-import com.example.masterofcode.sosplit.Adapter.MentionsListAdapter;
-import com.example.masterofcode.sosplit.CustomisedWidget.CustomFacebookMentionEditText;
+import com.example.masterofcode.facebookmentionedittext.Adapter.MentionsListAdapter;
+import com.example.masterofcode.facebookmentionedittext.CustomisedWidget.CustomFacebookMentionEditText;
 import com.facebook.HttpMethod;
 import com.facebook.Request;
 import com.facebook.Response;
@@ -27,7 +27,6 @@ import com.facebook.model.GraphUser;
 
 import org.json.JSONArray;
 import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.Arrays;
 import java.util.Collection;

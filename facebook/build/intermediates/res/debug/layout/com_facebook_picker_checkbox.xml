@@ -23,4 +23,4 @@
     android:focusable="false"
     android:clickable="false"
     android:button="@drawable/com_facebook_button_check" />
-<!-- From: file:/Users/e044983/Projects/SoSplit/facebook/res/layout/com_facebook_picker_checkbox.xml -->
+<!-- From: file:/Users/e044983/Projects/FacebookMentionEdittext/facebook/res/layout/com_facebook_picker_checkbox.xml -->

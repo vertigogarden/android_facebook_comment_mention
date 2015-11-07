@@ -11,7 +11,7 @@
         android:padding="0dp"
         android:layout_marginRight="5dp"
         android:layout_marginLeft="5dp">
-        <com.example.masterofcode.sosplit.CustomisedWidget.CustomFacebookMentionEditText
+        <com.example.masterofcode.facebookmentionedittext.CustomisedWidget.CustomFacebookMentionEditText
             android:id="@+id/mentionTextview"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

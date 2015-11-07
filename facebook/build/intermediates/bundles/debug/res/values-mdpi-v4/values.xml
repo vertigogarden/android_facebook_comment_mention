@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- From: file:/Users/e044983/Projects/SoSplit/facebook/res/values-mdpi/dimens.xml -->
+    <!-- From: file:/Users/e044983/Projects/FacebookMentionEdittext/facebook/res/values-mdpi/dimens.xml -->
     <eat-comment/>
     <dimen name="com_facebook_picker_divider_width">1px</dimen>
 </resources>
