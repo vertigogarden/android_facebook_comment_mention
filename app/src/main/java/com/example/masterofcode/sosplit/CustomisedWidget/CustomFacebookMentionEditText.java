@@ -43,7 +43,6 @@ import java.util.Set;
 public class CustomFacebookMentionEditText extends EditText {
     private static final String TAG = "CustomFacebook";
     private boolean mentionInProgress;
-    int rbottom;
     private Context context;
     private static float listY;
     private float ascend;
@@ -52,22 +51,10 @@ public class CustomFacebookMentionEditText extends EditText {
     private RelativeLayout facebookFriendlistLayout;
     private JSONArray friendlistArray;
     private ArrayList<JSONObject> selectedFriendlist;
-
     private String statusString;
     private String currentMention;
-
-    //for mentions tracking
-    private HashMap<Mention, Integer> mentionStartHash = new HashMap<Mention, Integer>();
-    private HashMap<Mention, Integer> mentionEndHash = new HashMap<Mention, Integer>();
-
-    private Set<Mention> mentionsSet = new HashSet<>();
-
     private static ArrayList<Mention> mentionList = new ArrayList<Mention>();
     private int mentionStart;
-    private int mentionEnd;
-
-    private float widgetY=0;
-
     private Listener listener;
 
     private AQuery aq;
@@ -111,41 +98,16 @@ public class CustomFacebookMentionEditText extends EditText {
     private TextWatcher textWatcher = new TextWatcher() {
         @Override
         public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-//            CharSequence charChanged =s;
-//            if(s.length()>1) {
-//                charChanged = s.subSequence(start + count, start + after);
-//            }
-//            Toast mytoast= Toast.makeText(context,
-//                    "s: "+ s
-//                            +"\n start:"+start
-//                            +"\n count:"+count
-//                            +"\n after:"+after
-//                            +"\n charChanged:"+charChanged
-//                    , Toast.LENGTH_SHORT);
-//            // for center horizontal
-//            mytoast.show();
         }
 
         @Override
         public void onTextChanged(CharSequence s, int start, int before, int count) {
-            resetFacebookFriendlist2();
-//            int pos = getSelectionStart();
-//            Layout layout = getLayout();
-//            int line = layout.getLineForOffset(pos);
-//            int baseline = layout.getLineBaseline(line);
-//            int ascent = layout.getLineAscent(line);
-//            int descent = layout.getLineDescent(line);
-//            float x = layout.getPrimaryHorizontal(pos);
-//            ascend = ascent;
-//            _baseline = baseline;
-//            listY = baseline + descent;
-//            displayTosat();
-//            displayFacebookFriendlist2();
+            resetFacebookFriendlist();
 
-            // If text added
+            // check if new text is added
             if (count > before) {
 
-                // calculate list position
+                // calculate list position, relative to the focus, below the text
                 int pos = getSelectionStart();
                 Layout layout = getLayout();
                 if (layout == null) return;
@@ -158,10 +120,7 @@ public class CustomFacebookMentionEditText extends EditText {
                 _baseline = baseline;
                 listY = getWidgetY() + _baseline + descent;
 
-
                 Character charChanged = s.charAt(start + count - 1);
-//                CharSequence charChanged = s;
-//                charChanged = s.subSequence(start + before, start + count);
                 Character charAtHead = s.charAt(start);
 
                 if (charAtHead.equals('@')) {
@@ -176,43 +135,21 @@ public class CustomFacebookMentionEditText extends EditText {
                 if (mentionInProgress) {
 //                    if(!charChanged.equals('@'))
                     currentMention += charChanged;
-                    displayFacebookFriendlist2();
+                    displayFacebookFriendlist();
                 }
                 textAdded(start + before, count - before);
 
-//                Toast mytoast = Toast.makeText(context,
-//                        "s: " + s
-//                                + "\n start:" + start
-//                                + "\n before:" + before
-//                                + "\n count:" + count
-//                                + "\n charChanged:" + charChanged
-//                                + "\n charAtHead:" + charAtHead
-//                                + "\n currentMention:" + currentMention
-//                        , Toast.LENGTH_SHORT);
-//                // for center horizontal
-//                mytoast.show();
             } else if( count == before){
                 // ignore
             } else {
                 textRemoved(start, before - count);
                 if (mentionInProgress) {
-//                    if(currentMention.length()>0)
                     currentMention = currentMention.substring(0, currentMention.length() - 1);
                     //                if(charChanged.equals("@")){
                     if (currentMention.length() > 0)
-                        displayFacebookFriendlist2();
+                        displayFacebookFriendlist();
                     else mentionInProgress = false;
                 }
-
-//                Toast mytoast = Toast.makeText(context,
-//                        "s: " + s
-//                                + "\n start:" + start
-//                                + "\n before:" + before
-//                                + "\n count:" + count
-//                                + "\n currentMention:" + currentMention
-//                        , Toast.LENGTH_SHORT);
-//                // for center horizontal
-//                mytoast.show();
             }
         }
 
@@ -222,73 +159,11 @@ public class CustomFacebookMentionEditText extends EditText {
         }
     };
 
-//    @Override
-//    protected void onSelectionChanged(int selStart, int selEnd) {
-//        // cancel current
-//        mentionFriend(false, null, 0);
-//    }
-
-
-
     public void setFreindlist(JSONArray friendlistArray){
         this.friendlistArray = friendlistArray;
     }
 
-//    private void displayTosat(){
-//
-//        final Window mRootWindow = ((Activity) context).getWindow();
-//        View mRootView = mRootWindow.getDecorView().findViewById(android.R.id.content);
-//        mRootView.getViewTreeObserver().addOnGlobalLayoutListener(
-//                new ViewTreeObserver.OnGlobalLayoutListener() {
-//                    public void onGlobalLayout(){
-//                        Rect r = new Rect();
-//                        View view = mRootWindow.getDecorView();
-//                        view.getWindowVisibleDisplayFrame(r);
-//                        // r.left, r.top, r.right, r.bottom
-//                        rbottom = r.bottom;
-//                    }
-//                });
-//
-//
-//        int height = (int)(_baseline + getY());
-//        Toast mytoast= Toast.makeText(context,
-//                "main: "+ height
-//                +"\nfocus listY: "+ listY
-//                +"\nrbottom: " +rbottom
-//                +"\nwindow height: " + mRootView.getHeight()
-//                +"\ngetY: "+getY()
-//                +"\nascent: " + ascend
-//                +"\nbaseline: " + _baseline
-//                , Toast.LENGTH_SHORT);
-//        // for center horizontal
-//        mytoast.setGravity(Gravity.TOP, 0, height);
-//        mytoast.show();
-//    }
-
-//    private void displayFacebookFriendlist(){
-//        if(facebookFriendlistLayout == null){
-//
-//            facebookFriendlistLayout = new RelativeLayout(context);
-//
-//            // Defining the RelativeLayout layout parameters.
-//            // In this case I want to fill its parent
-//            RelativeLayout.LayoutParams rlp = new RelativeLayout.LayoutParams(
-//                    RelativeLayout.LayoutParams.MATCH_PARENT, 300);
-//
-//            ((Activity)context).getWindow().addContentView(facebookFriendlistLayout, rlp);
-//
-//        }
-//        facebookFriendlistLayout.setX(0);
-//        facebookFriendlistLayout.setY(listY + getY());
-//        facebookFriendlistLayout.setBackgroundColor(Color.YELLOW);
-//        facebookFriendlistLayout.setVisibility(VISIBLE);
-////        if(facebookFriendlist==null){
-////            facebookFriendlist = new ListView(context);
-////
-////        }
-//    }
-
-    private void displayFacebookFriendlist2(){
+    private void displayFacebookFriendlist(){
         if(facebookFriendlist == null){
 
             facebookFriendlist = new ListView(context);
@@ -299,7 +174,6 @@ public class CustomFacebookMentionEditText extends EditText {
                     ListView.LayoutParams.MATCH_PARENT, 300);
 
             facebookFriendlist.setPadding(40, 0, 40, 0);
-//            facebookFriendlist.setBackgroundColor(Color.parseColor("#aaffffff"));
             ((Activity)context).getWindow().addContentView(facebookFriendlist, lvp);
 
         }
@@ -324,42 +198,35 @@ public class CustomFacebookMentionEditText extends EditText {
                     Log.e(TAG, e.toString());
                     Toast.makeText(context, "error display name", Toast.LENGTH_SHORT).show();
                 }
-
             }
         });
-//        expand();
-//        if(facebookFriendlist==null){
-//            facebookFriendlist = new ListView(context);
-//
-//        }
     }
-
 
     private void mentionFriend(Boolean success, JSONObject friendObject, int mentionEnd){
         mentionInProgress = false;
         currentMention = "";
-        resetFacebookFriendlist2();
+        resetFacebookFriendlist();
 
         if(success){
             Mention mention = new Mention(friendObject, mentionStart, mentionEnd);
             mentionList.add(mention);
-//            listener.customFacebookMentionTextViewMentionAdded(mention);
             if(listener!=null)
                 listener.customFacebookMentionTextViewMentionChanged(mentionList);
         }
     }
 
-//    private void resetFacebookFriendlist(){
-//        if(facebookFriendlistLayout == null) return;
-//        facebookFriendlist.setVisibility(GONE);
-//    }
-
-    private void resetFacebookFriendlist2(){
+    private void resetFacebookFriendlist(){
         if(facebookFriendlist == null) return;
         facebookFriendlist.setVisibility(INVISIBLE);
 //        collapse();
     }
 
+    /**
+     * Returns string of msg that should posted to facebook,
+     * replacing facebook id with names
+     *
+     * e.g hello @[facebook id] , how are you!p
+     */
     public String getStatusString(){
         statusString = getText().toString();
 
@@ -374,7 +241,6 @@ public class CustomFacebookMentionEditText extends EditText {
 
         String statusPostString = "";
         int nextSplitIndex = 0;
-//        ArrayList<String> stringQueue = new <String>();
         for(int i=0; i<mentionList.size(); i++){
             Mention mention = mentionList.get(i);
 
@@ -393,7 +259,9 @@ public class CustomFacebookMentionEditText extends EditText {
     }
 
     /**
-     * To delete
+     * Returns string of msg that will appear if posted to facebook
+     *
+     * e.g hello @[your name] , how are you!p
      */
     public String getMOCKStatusString(){
         statusString = getText().toString();
@@ -424,7 +292,7 @@ public class CustomFacebookMentionEditText extends EditText {
                 nextSplitIndex = mention.mentionEnd+1;
             }
         }
-        return  statusPostString+"||";
+        return  statusPostString;
     }
 
     private String getSubString(String statusString, int nextSplitIndex, int mentionStart) {
@@ -444,7 +312,8 @@ public class CustomFacebookMentionEditText extends EditText {
             }
         }
 
-        // remove mentions with interupted mentions
+        // remove mentions with interupted mentions,
+        // such as when text is entered in the middle of the name
         if(mentionList.size()>0) mentionsChanged(removeMentionList);
     }
 
@@ -460,7 +329,8 @@ public class CustomFacebookMentionEditText extends EditText {
             }
         }
 
-        // remove mentions with interupted mentions
+        // remove mentions with interupted mentions,
+        // such as when text is entered in the middle of the name
         if(mentionList.size()>0) mentionsChanged(removeMentionList);
     }
 
@@ -477,7 +347,6 @@ public class CustomFacebookMentionEditText extends EditText {
     }
 
     public JSONArray getFilteredList() {
-//        return friendlistArray;
         if(currentMention==null || currentMention.length()<=1) return friendlistArray;
         else{
             String tempCurrentMention = currentMention.substring(1, currentMention.length());
@@ -491,6 +360,9 @@ public class CustomFacebookMentionEditText extends EditText {
         }
     }
 
+    /**
+     * Calculate the position of the widget in the app
+     */
     public float getWidgetY() {
         View rootLayout = this.getRootView().findViewById(android.R.id.content);
 
@@ -500,13 +372,7 @@ public class CustomFacebookMentionEditText extends EditText {
         int[] rootLocation = new int[2];
         rootLayout.getLocationInWindow(rootLocation);
 
-        int relativeLeft = viewLocation[0] - rootLocation[0];
         return viewLocation[1] - rootLocation[1];
-
-
-//        int[] location = new int[2];
-//        getLocationOnScreen(location);
-//        return location[1];
     }
 
 
@@ -572,7 +438,6 @@ public class CustomFacebookMentionEditText extends EditText {
         String id;
         String name;
         String photoURL;
-        double amount;
         int mentionStart;
         int mentionEnd;
         public Mention(JSONObject friendObject, int mentionStart, int mentionEnd){
@@ -582,16 +447,16 @@ public class CustomFacebookMentionEditText extends EditText {
             this.photoURL = friendObject.optJSONObject("picture").optJSONObject("data").optString("url");
             this.mentionStart=mentionStart;
             this.mentionEnd=mentionEnd;
-            this.amount = 0;
         }
 
         public String getId(){return id;}
         public String getName(){return name;}
         public String getPhotoURL(){return photoURL;}
-        public double getAmount(){ return amount;}//return amount;}
-        public void setAmount(double amount){this.amount=amount;}
     }
 
+    /**
+     * Implement interface to update changes to mentions
+     */
     public interface Listener {
         public void customFacebookMentionTextViewMentionChanged(List<Mention> mentions);
         public void customFacebookMentionTextViewMentionAdded(Mention mention);
