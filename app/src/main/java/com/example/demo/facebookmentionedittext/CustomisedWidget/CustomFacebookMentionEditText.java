@@ -52,7 +52,7 @@ public class CustomFacebookMentionEditText extends EditText {
     private String currentMention;
     private static ArrayList<Mention> mentionList = new ArrayList<Mention>();
     private int mentionStart;
-    private Listener listener;
+    private Interface anInterface;
 
     private AQuery aq;
 
@@ -207,8 +207,8 @@ public class CustomFacebookMentionEditText extends EditText {
         if(success){
             Mention mention = new Mention(friendObject, mentionStart, mentionEnd);
             mentionList.add(mention);
-            if(listener!=null)
-                listener.customFacebookMentionTextViewMentionChanged(mentionList);
+            if(anInterface !=null)
+                anInterface.customFacebookMentionTextViewMentionChanged(mentionList);
         }
     }
 
@@ -335,12 +335,12 @@ public class CustomFacebookMentionEditText extends EditText {
         for(int i:removeMentionList){
             mentionList.remove(i);
         }
-        if(listener!=null)
-            listener.customFacebookMentionTextViewMentionChanged(mentionList);
+        if(anInterface !=null)
+            anInterface.customFacebookMentionTextViewMentionChanged(mentionList);
     }
 
-    public void setListener(Listener listener) {
-        this.listener = listener;
+    public void setAnInterface(Interface anInterface) {
+        this.anInterface = anInterface;
     }
 
     public JSONArray getFilteredList() {
@@ -454,7 +454,7 @@ public class CustomFacebookMentionEditText extends EditText {
     /**
      * Implement interface to update changes to mentions
      */
-    public interface Listener {
+    public interface Interface {
         public void customFacebookMentionTextViewMentionChanged(List<Mention> mentions);
         public void customFacebookMentionTextViewMentionAdded(Mention mention);
     }

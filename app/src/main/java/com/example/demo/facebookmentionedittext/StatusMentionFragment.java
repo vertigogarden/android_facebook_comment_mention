@@ -32,7 +32,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
-public class StatusMentionFragment extends Fragment implements CustomFacebookMentionEditText.Listener {
+public class StatusMentionFragment extends Fragment implements CustomFacebookMentionEditText.Interface {
     private static final String TAG = "OpenGraphFragment";
 
     private static final String PENDING_PUBLISH_KEY = "pendingPublishReauthorization";
@@ -84,7 +84,7 @@ public class StatusMentionFragment extends Fragment implements CustomFacebookMen
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_open_graph, container, false);
         mentionTextview = (CustomFacebookMentionEditText) view.findViewById(R.id.mentionTextview);
-        mentionTextview.setListener(this);
+        mentionTextview.setAnInterface(this);
         Resources r = getResources();
         mentionTextview.setAQuery(aq);
 
