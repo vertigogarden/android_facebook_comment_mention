@@ -1,4 +1,4 @@
-# Facebook Comment Mention
+# Facebook Comment Mention for Android
 An android app, showcasing the implemtation of edittext, to mention facebook friends.
 
 ## Features
